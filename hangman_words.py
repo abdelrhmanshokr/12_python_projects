@@ -1,0 +1,1 @@
+words = ['apple', 'orange', 'car', 'help', 'ancient', 'tree', 'bike', 'share']
