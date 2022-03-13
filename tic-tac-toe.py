@@ -1,4 +1,5 @@
-from player.py import HumanPlayer, RandomComputerPlayer 
+import time
+from player import HumanPlayer, RandomComputerPlayer 
 
 class TicTacToe:
 	def __init__(self):
@@ -36,8 +37,10 @@ class TicTacToe:
 	def num_empty_squares(self):
 		return self.board.count(' ')
 
-	def make_move(self, letter, square): 
-		# check if the move is valid 
+	def make_move(self, letter, square):
+		print(f'this is square {square}')
+		print(f'this is value of self.board[3] {self.board[3]}') 
+		# check if the move is valid
 		if self.board[square] == ' ':
 			# then make the move and return true
 			self.board[square] = letter
@@ -87,35 +90,38 @@ def play(game, x_player, o_player, print_game=True):
 	if print_game:
 		game.print_board_numbers()
 
-	starting_letter = 'x'
+	letter = 'x'
 	# while there are empty spaces then the game goes on
 	while game.empty_squares():
 		# get the next move to the right player 
 		if letter == 'x':
-			square = x_player.get_move(game)
+			square = x_player.get_next_move(game)
 		else:
-			square = o_player.get_move(game)
+			square = o_player.get_next_move(game)
 
 		# now it's time to make a move to make it count
 		# assigning a letter to an empty square
 		if game.make_move(letter, square):
 			if print_game:
-				print f'{letter} makes a move to {square}'
+				print(f'{letter} made a move to sqaure {square}')
 				game.print_board()
 				print('')
 
 			# here we need to check if there is a winner 
-			if current_winner:
-				print f'{letter} WINS!'
+			if game.current_winner:
+				print(letter + "WINS!")
 
 			# after making a move we need to alternate letters 
-			letter = 'o' if letter = 'x' else 'x'
+			letter = 'o' if letter == 'x' else 'x'
 
-		print('It\'s a tie')
+		# adding a time pause between every move
+		time.sleep(0.8)
+
+	print('It\'s a tie')
 
 
 if __name__ == '__main__':
 	x_player = HumanPlayer('x')
 	o_player = RandomComputerPlayer('o')
 	game = TicTacToe()
-	play(game, x_player, y_player, print_game=True)
+	play(game, x_player, o_player, print_game=True)

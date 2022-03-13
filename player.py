@@ -9,6 +9,7 @@ class Player:
 	# a function so every player could get their next move given a game
 	def get_next_move(self, game):
 		# pass as this is the base player class 
+		# each case will have its own get_next_move implementation
 		pass 
 
 
@@ -38,7 +39,7 @@ class HumanPlayer(Player):
 			# apply checks to see if the user's input is valid or not 
 			try:
 				val = int(square)
-				if val not in game.available_moves:
+				if val not in game.available_moves():
 					raise ValueError
 				# else 
 				valid_input = True
