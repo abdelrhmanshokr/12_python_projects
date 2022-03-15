@@ -26,6 +26,8 @@ class RandomComputerPlayer(Player):
 		# randomly from available moves 
 		square = random.choice(game.available_moves()) 
 
+		return square
+
 class HumanPlayer(Player):
 	def __init__(self, letter):
 		super().__init__(letter)
@@ -35,7 +37,7 @@ class HumanPlayer(Player):
 		valid_input = False
 		val = None
 		while not valid_input:
-			square = input(self.letter + '\'s turn. Input move from 0 to 9: ')
+			square = input(self.letter + '\'s turn. Input move from 0 to 8: ')
 			# apply checks to see if the user's input is valid or not 
 			try:
 				val = int(square)

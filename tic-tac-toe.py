@@ -23,11 +23,11 @@ class TicTacToe:
 			print('| ' + ' | '.join(row) + ' |')
 
 	def available_moves(self):
-		return [i for i, spot in enumerate(self.board) if spot == ' ']
+		return [i for i, value in enumerate(self.board) if value == ' ']
 		# the same code as the following
 		# moves = [] 
-		# for(i, spot) in enumerate(self.board):
-		# 	if spot == ' ':
+		# for(i, value) in enumerate(self.board):
+		# 	if value == ' ':
 		# 		moves.append(i)
 		# return moves
 
@@ -38,8 +38,6 @@ class TicTacToe:
 		return self.board.count(' ')
 
 	def make_move(self, letter, square):
-		print(f'this is square {square}')
-		print(f'this is value of self.board[3] {self.board[3]}') 
 		# check if the move is valid
 		if self.board[square] == ' ':
 			# then make the move and return true
@@ -103,13 +101,13 @@ def play(game, x_player, o_player, print_game=True):
 		# assigning a letter to an empty square
 		if game.make_move(letter, square):
 			if print_game:
-				print(f'{letter} made a move to sqaure {square}')
+				print(f'{letter} moves to sqaure {square}')
 				game.print_board()
 				print('')
 
 			# here we need to check if there is a winner 
 			if game.current_winner:
-				print(letter + "WINS!")
+				print(f"{letter} WINS !")
 
 			# after making a move we need to alternate letters 
 			letter = 'o' if letter == 'x' else 'x'
