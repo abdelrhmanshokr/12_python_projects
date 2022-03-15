@@ -108,6 +108,7 @@ def play(game, x_player, o_player, print_game=True):
 			# here we need to check if there is a winner 
 			if game.current_winner:
 				print(f"{letter} WINS !")
+				break
 
 			# after making a move we need to alternate letters 
 			letter = 'o' if letter == 'x' else 'x'
@@ -115,7 +116,9 @@ def play(game, x_player, o_player, print_game=True):
 		# adding a time pause between every move
 		time.sleep(0.8)
 
-	print('It\'s a tie')
+	if game.current_winner == None:
+		print('It\'s a tie')
+
 
 
 if __name__ == '__main__':
