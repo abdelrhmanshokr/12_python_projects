@@ -49,3 +49,73 @@ class HumanPlayer(Player):
 				print('Invalid square try again !')
 
 		return val
+
+class SuperComputerPlayer(Player):
+	def __init__(self, letter):
+		super().__init__(letter)
+
+	def minimax(self, game, letter):
+		# the game here is like a screenshot of the state of the game at that point
+		max_player = self.letter # the super computer player
+		other_player = 'o' if letter == 'x' else 'x'
+
+		# first we need to check if the previous move is a winner
+		# so we need to define the base cases 
+		if game.check_winner == other_player:
+			# for the minimax algorithm we need to keep track of the score 
+			# and the state as well 
+			return {
+				'position': None,
+				'score': 1 * (game.empty_squares() + 1) if other_player == max_player else -1 * (game.empty_squares() + 1)
+			}
+		elif not game.empty_squares():
+			# no winner 
+			return {
+				'position': None, # because we didn't move
+				'score': 0 
+			}
+
+		# now into the algorithm itself 
+		if letter == max_player:
+			# if the player is yourself
+			best = {
+				'position': None,
+				'score': - math.inf # we initialize the score to - inf so we have to increase it in every iteration
+			}
+		else:
+			# it's the other player
+			best = {
+				'position': None,
+				'score': math.inf # we initialized the score to inf so we have to decrease it in every iteration 
+			}
+
+		# check all available moves then choose the best one
+		for possible_move in game.available_moves():
+			# step 1 make a move, try that spot
+			game.make_move(letter, possible_move) 
+			# step 2 recurse using minimax to simulate that move
+			simulated_score = self.minimax(game, other_player) 
+			# step 3 undo that move to check other positions 
+			game.board[possible_move] = ' '
+			game.current_winner = None
+			simulated_score['position'] = possible_move
+			# step 4 update the dictionaries if needed 
+			if letter == max_player:
+				simulated_score['score'] > best['score']
+				best = simulated_score
+			else: 
+				# the player is the min player the other player 
+				if simulated_score['score'] < best['score']:
+					best = simulated_score
+
+		return best
+
+	def get_next_move(self, game):
+		# this is where the super computer player is gonna choose the best square
+		if len(game.available_moves()) == 9:
+			square = random.choice(game.available_moves()) # random choice
+		else:
+			# get the best square to win based on the minimax algorithm 
+			square = self.minimax(game, self.letter)['position']
+
+		return square
